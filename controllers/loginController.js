@@ -1,16 +1,17 @@
-require('dotenv').config();
-const User = require('../database/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const User = require('../database/User')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const handleLogin = async (req, res) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const foundUser = await User.findOne().where('username').equals(username);
+    const username = req.body.username
+    const password = req.body.password
+    const foundUser = await User.findOne().where('username').equals(username)
     if(!foundUser) {
-      res.sendStatus(401);
-      return;
+      res.status(401).json({
+        message: 'wrong username or password'
+      })
+      return
     }
     if(await bcrypt.compare(password, foundUser.password)) {
       const accessToken = jwt.sign({
@@ -23,14 +24,18 @@ const handleLogin = async (req, res) => {
         httpOnly: true,
         maxAge: 12 * 60 * 60 * 1000
       });
-      res.sendStatus(200);
+      res.status(200).json({
+        message: 'success'
+      })
     } else {
-      res.sendStatus(401);
+      res.status(401).json({
+        message: 'wrong username or password'
+      })
     }
   } catch(e) {
-    console.log(e.message);
-    res.sendStatus(500);
+    console.log(e.message)
+    res.sendStatus(500)
   }
 };
 
-module.exports = handleLogin;
+module.exports = handleLogin

@@ -15,6 +15,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/users', require('./routes/users'))
+app.use('/posts', require('./routes/posts'))
 
 app.all('*', (req, res) => {
   res.status(404).json({
