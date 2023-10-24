@@ -1,9 +1,8 @@
 const Post = require('../database/Post')
 
 const sendBlogPostsInRange = async (req, res) => {
-  console.log(req.body.from)
-  const from = req.body.from
-  const count = req.body.count
+  const from = req.query.from
+  const count = req.query.count
   try {
     const blogPosts = await Post.find().sort({ createdAt: 'desc' }).skip(from - 1).limit(count).exec()
     res.json(blogPosts)
