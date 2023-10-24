@@ -1,5 +1,18 @@
 const Post = require('../database/Post')
 
+const sendBlogPostsInRange = async (req, res) => {
+  console.log(req.body.from)
+  const from = req.body.from
+  const count = req.body.count
+  try {
+    const blogPosts = await Post.find().sort({ createdAt: 'desc' }).skip(from - 1).limit(count).exec()
+    res.json(blogPosts)
+  } catch(e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
+}
+
 const sendBlogPosts = async (req, res) => {
   try {
     const blogPosts = await Post.find()
@@ -29,17 +42,24 @@ const sendBlogPost = async (req, res) => {
 
 const handleNewBlogPost = async (req, res) => {
   try {
-    const { title, text } = req.body;
+    const { title, text, desc } = req.body;
     if(title.length > 100) {
-      res.status().json({
+      res.status(409).json({
         message: 'title cannot be longer than 100 charachters'
       })
+      return
+    } else if(desc.length > 300) {
+      res.status(409).json({
+        message: 'description cannot be longer than 300 charachters'
+      })
+      return
     }
     const blogPost = {
       user: req.user,
       title: title,
+      desc: desc,
       text: text,
-      createdAt: new Date(),
+      createdAt: Date.now(),
       feedback: {
         likes: 0,
         dislikes: 0
@@ -75,4 +95,4 @@ const deleteBlogPost = async (req, res) => {
   }
 }
 
-module.exports = { sendBlogPosts, sendBlogPost, handleNewBlogPost, deleteBlogPost }
+module.exports = { sendBlogPosts, sendBlogPost, handleNewBlogPost, deleteBlogPost, sendBlogPostsInRange }

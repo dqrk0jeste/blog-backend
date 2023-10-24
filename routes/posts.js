@@ -1,9 +1,11 @@
 const router = require('express').Router()
 
 const { verifyUser } = require('../middleware/verifyUser')
-const { sendBlogPosts, sendBlogPost, handleNewBlogPost, deleteBlogPost } = require('../controllers/postController')
+const { sendBlogPosts, sendBlogPost, handleNewBlogPost, deleteBlogPost,sendBlogPostsInRange } = require('../controllers/postController')
 
 router.get('/', sendBlogPosts)
+
+router.get('/range', sendBlogPostsInRange)
 
 router.get('/:id', sendBlogPost)
 

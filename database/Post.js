@@ -12,8 +12,12 @@ const postSchema = mongoose.Schema({
   text: {
     type: String
   },
+  desc: {
+    type: String,
+    required: true
+  },
   createdAt: {
-    type: Date
+    type: Number
   },
   feedback: {
     likes: {
