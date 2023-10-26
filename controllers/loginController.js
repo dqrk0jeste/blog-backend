@@ -22,7 +22,8 @@ const handleLogin = async (req, res) => {
       );
       res.cookie('jwt', accessToken, {
         httpOnly: true,
-        Path: '/',
+        path: '/',
+        domain: 'https://dqrk0jeste.github.io',
         sameSite: 'None',
         secure: true,
         maxAge: 12 * 60 * 60 * 1000
