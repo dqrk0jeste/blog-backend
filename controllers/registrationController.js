@@ -5,7 +5,7 @@ const handleRegistation = async (req, res) => {
   try {
     const username = req.body.username
     if(username.length > 20) {
-      res.status().json({
+      res.status(406).json({
         message: 'username cannot be longer than 20 characters'
       })
       return
