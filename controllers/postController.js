@@ -80,7 +80,13 @@ const deleteBlogPost = async (req, res) => {
     const post = await Post.findOne().where('_id').equals(id)
     if(!post) {
       res.statsus(404).json({
-        message: 'psot not found'
+        message: 'post not found'
+      })
+      return
+    }
+    if(post.user !== req.user) {
+      res.status(403).json({
+        message: 'you cannot delete this post'
       })
       return
     }

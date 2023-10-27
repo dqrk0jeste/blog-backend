@@ -11,6 +11,6 @@ router.get('/:id', sendBlogPost)
 
 router.post('/create', verifyUser, handleNewBlogPost);
 
-router.delete('/', deleteBlogPost)
+router.delete('/', verifyUser, deleteBlogPost)
 
 module.exports = router

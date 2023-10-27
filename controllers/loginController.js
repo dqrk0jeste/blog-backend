@@ -20,16 +20,8 @@ const handleLogin = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '12h' }
       );
-      res.cookie('jwt', accessToken, {
-        httpOnly: true,
-        path: '/',
-        domain: 'https://dqrk0jeste.github.io/blog',
-        sameSite: 'None',
-        secure: true,
-        maxAge: 12 * 60 * 60 * 1000
-      });
       res.status(200).json({
-        message: 'success'
+        token: 'Bearer ' + accessToken
       })
     } else {
       res.status(401).json({
